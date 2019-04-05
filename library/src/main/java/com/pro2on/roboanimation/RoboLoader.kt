@@ -23,7 +23,7 @@ class RoboLoader @JvmOverloads constructor(
 
 
     //rec
-    private val mainColor: Int = Color.GRAY
+    private var mainColor: Int = 0
     private val recOne = RectF(0f, 0f, 0f, 0f)
     private val recTwo = RectF(0f, 0f, 0f, 0f)
     private val recThree = RectF(0f, 0f, 0f, 0f)
@@ -61,13 +61,25 @@ class RoboLoader @JvmOverloads constructor(
 
 
     init {
+        attrs?.let { retrieveAttributes(attrs, defStyleAttr) }
         setOnClickListener { toggleAnimation() }
+    }
+
+
+    private fun retrieveAttributes(attrs: AttributeSet, defStyleAttr: Int) {
+
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoboLoader,
+            defStyleAttr, R.style.BaseRoboLoader)
+
+        mainColor = typedArray.getColor(R.styleable.RoboLoader_android_color, Color.GRAY)
+        mainPaint.color = mainColor
+
+        typedArray.recycle()
     }
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-
 
         fraction = (width / 7).toFloat()
         rectangleSize = fraction * 3
@@ -84,12 +96,10 @@ class RoboLoader @JvmOverloads constructor(
         recTwo.left = 9 * halfFraction
         recTwo.bottom = 5 * halfFraction
 
-
         recThree.bottom = 13 * halfFraction
         recThree.right = 13 * halfFraction
         recThree.top = 9 * halfFraction
         recThree.left = halfFraction
-
 
         mainPaint.strokeWidth = fraction
     }
@@ -118,9 +128,7 @@ class RoboLoader @JvmOverloads constructor(
 
             recThree.right = 13 * halfFraction - localProgress * 8 * halfFraction
 
-        }
-
-        else if (progress > 0.125 && progress <= 0.25) {
+        } else if (progress > 0.125 && progress <= 0.25) {
 
             // save previous animation result
             recThree.right = 5 * halfFraction
@@ -128,9 +136,7 @@ class RoboLoader @JvmOverloads constructor(
             val localProgress = 8 * progress - 1
             recTwo.bottom = 5 * halfFraction + localProgress * 8 * halfFraction
 
-        }
-
-        else if (progress > 0.25 && progress <= 0.375f) {
+        } else if (progress > 0.25 && progress <= 0.375f) {
 
             // save previous animation result
             recTwo.bottom = 13 * halfFraction
@@ -138,9 +144,7 @@ class RoboLoader @JvmOverloads constructor(
             val localProgress = 8 * progress - 2
             recTwo.top = halfFraction + localProgress * 8 * halfFraction
 
-        }
-
-        else if (progress > 0.375f && progress <= 0.50f) {
+        } else if (progress > 0.375f && progress <= 0.50f) {
 
             // save previous animation result
             recTwo.top = 9 * halfFraction

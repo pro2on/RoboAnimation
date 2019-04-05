@@ -11,6 +11,7 @@
         android:id="@+id/roboLoader"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:color="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
