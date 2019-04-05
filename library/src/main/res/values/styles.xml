@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseRoboLoader">
+        <item name="android:color">@color/default_loader_color</item>
+    </style>
+
+</resources>
