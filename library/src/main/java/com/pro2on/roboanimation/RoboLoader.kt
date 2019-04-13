@@ -44,7 +44,7 @@ class RoboLoader @JvmOverloads constructor(
     private var halfFraction = 0F
 
 
-
+    private var autoAnimation = false
 
     private var isAnimating = false
     private val animatorOne = ValueAnimator.ofFloat(0.0f, 1.0f).apply {
@@ -62,7 +62,10 @@ class RoboLoader @JvmOverloads constructor(
 
     init {
         attrs?.let { retrieveAttributes(attrs, defStyleAttr) }
-        setOnClickListener { toggleAnimation() }
+        setOnClickListener {
+            autoAnimation = false
+            toggleAnimation()
+        }
     }
 
 
@@ -73,6 +76,8 @@ class RoboLoader @JvmOverloads constructor(
 
         mainColor = typedArray.getColor(R.styleable.RoboLoader_android_color, Color.GRAY)
         mainPaint.color = mainColor
+
+        autoAnimation = typedArray.getBoolean(R.styleable.RoboLoader_android_enabled, false)
 
         typedArray.recycle()
     }
@@ -192,6 +197,10 @@ class RoboLoader @JvmOverloads constructor(
         canvas?.drawRect(recTwo, mainPaint) // box 3
         canvas?.drawRect(recThree, mainPaint) // box 1
 
+
+        if (autoAnimation && !isAnimating) {
+            startAnimation()
+        }
     }
 
 
@@ -207,9 +216,7 @@ class RoboLoader @JvmOverloads constructor(
 
         } else {
 
-            progress = 0.0f
-            animatorOne.start()
-            isAnimating = true
+            startAnimation()
         }
 
 
@@ -217,5 +224,10 @@ class RoboLoader @JvmOverloads constructor(
 
 
 
+    private fun startAnimation() {
+        progress = 0.0f
+        animatorOne.start()
+        isAnimating = true
+    }
 
 }
